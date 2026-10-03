@@ -7,4 +7,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(rasterizer
     src/main.cpp
+    src/Framebuffer.cpp
 )
