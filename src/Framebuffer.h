@@ -13,6 +13,8 @@ class Framebuffer
         Color getPixel(int width, int height);
 
         bool savePPM(const std::string& filename);
+        
+        void clear(Color color);
 
     private:
         int width;

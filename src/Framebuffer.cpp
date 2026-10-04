@@ -62,3 +62,11 @@ bool Framebuffer::savePPM(const std::string& filename)
 
     return true;
 }
+
+void Framebuffer::clear(Color color)
+{
+    for (Color& pixel : pixels)
+    {
+        pixel = color;
+    }
+}
