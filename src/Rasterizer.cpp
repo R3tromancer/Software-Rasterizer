@@ -2,8 +2,8 @@
 #include "Framebuffer.h"
 #include "Color.h"
 
-#include <cmath>
-#include <algorithm>
+#include <cstdlib>
+
 
 void drawLine(
     Framebuffer& framebuffer,
@@ -14,7 +14,43 @@ void drawLine(
     Color color
 )
 {
-    int dx = x1 - x0;
+    int dx = std::abs(x1 - x0);
+    int dy = std::abs(y1 - y0);
+
+    int sx = (x1 > x0) ? 1 : -1;
+    int sy = (y1 > y0) ? 1 : -1;
+
+    int error = dx - dy;
+
+    while(true)
+    {
+        framebuffer.setPixel(x0, y0, color);
+
+        if(x0 == x1 && y0 == y1)
+        {
+            break;
+        }
+
+        int doubledError = 2 * error;
+
+        if (doubledError > -dy)
+        {
+            error -= dy;
+            x0 += sx;
+        }
+
+        if(doubledError < dx)
+        {
+            error += dx;
+            y0 += sy;
+        }
+
+    }
+
+
+
+
+   /*  int dx = x1 - x0;
     int dy = y1 - y0;
 
     int steps = std::max(std::abs(dx), std::abs(dy));
@@ -39,5 +75,5 @@ void drawLine(
 
         x += xStep;
         y += yStep;
-    }
+    } */
 }
