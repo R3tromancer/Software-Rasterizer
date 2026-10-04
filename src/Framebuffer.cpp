@@ -25,7 +25,7 @@ void Framebuffer::setPixel(int x, int y, Color color)
     pixels[index] = color;
 }
 
-Color Framebuffer::getPixel(int x, int y)
+Color Framebuffer::getPixel(int x, int y) const
 {
     if(x < 0 || x >= width || y < 0 || y >= height)
     {
@@ -36,7 +36,7 @@ Color Framebuffer::getPixel(int x, int y)
     return pixels[index];
 }
 
-bool Framebuffer::savePPM(const std::string& filename)
+bool Framebuffer::savePPM(const std::string& filename) const
 {
     std::ofstream file(filename);
     if (!file)
