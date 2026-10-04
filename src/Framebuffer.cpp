@@ -8,6 +8,10 @@ Framebuffer::Framebuffer(int width, int height)
         height(height),
         pixels(width * height)
 {
+    if (width <= 0 || height <= 0)
+    {
+        throw std::invalid_argument("Framebuffer dimentions must be positive");
+    }
 }
 
 void Framebuffer::setPixel(int x, int y, Color color)

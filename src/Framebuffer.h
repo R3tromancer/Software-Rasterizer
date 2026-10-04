@@ -10,9 +10,9 @@ class Framebuffer
         Framebuffer(int width, int height);
 
         void setPixel(int width, int height, Color color);
-        Color getPixel(int width, int height);
+        Color getPixel(int width, int height) const;
 
-        bool savePPM(const std::string& filename);
+        bool savePPM(const std::string& filename) const;
         
         void clear(Color color);
 
