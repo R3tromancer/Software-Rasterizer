@@ -1,7 +1,9 @@
 //F7 build
 //ctrl shift f5 run without debugging
 #include <iostream>
-# include "Framebuffer.h"
+
+
+#include "Framebuffer.h"
 #include "Rasterizer.h"
 
 int main()
@@ -16,7 +18,7 @@ int main()
 
     framebuffer.clear(black);
 
-    drawLine(framebuffer, 50, 20, 80, 130, red);
+    drawLine(framebuffer, 70, 20, 90, 130, white);
 
     if (framebuffer.savePPM("output.ppm"))
         {

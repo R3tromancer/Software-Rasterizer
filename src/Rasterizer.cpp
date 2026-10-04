@@ -3,6 +3,7 @@
 #include "Color.h"
 
 #include <cmath>
+#include <algorithm>
 
 void drawLine(
     Framebuffer& framebuffer,
@@ -13,38 +14,30 @@ void drawLine(
     Color color
 )
 {
-    if (x0 > x1)
-    {
-        int temp = x0;
-        x0 = x1;
-        x1 = temp;
+    int dx = x1 - x0;
+    int dy = y1 - y0;
 
-        temp = y0;
-        y0 = y1;
-        y1 = temp;
+    int steps = std::max(std::abs(dx), std::abs(dy));
+
+    if(steps == 0)
+    {
+        framebuffer.setPixel(x0, y0, color);
     }
 
-    if (x0 == x1)
+    double xStep = static_cast<double>(dx) / steps;
+    double yStep = static_cast<double>(dy) / steps;
+
+    double x = x0;
+    double y = y0;
+
+    for (int i = 0; i <= steps; ++i)
     {
-        for (int i = y0; i < y1; ++i)
-        {
-            framebuffer.setPixel(x0, i, color);
-        }
-
-        return;
-    }
-
-    double slope =
-    static_cast<double>(y1 - y0)
-    /
-    static_cast<double>(x1 - x0);
-
-    for (int x = x0; x <= x1; ++x)
-    {
-        double y = y0 + (x - x0) * slope;
+        int pixelX = static_cast<int>(std::round(x));
         int pixelY = static_cast<int>(std::round(y));
-        framebuffer.setPixel(x, pixelY, color);
+
+        framebuffer.setPixel(pixelX, pixelY, color);
+
+        x += xStep;
+        y += yStep;
     }
-
-
 }
