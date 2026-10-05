@@ -11,11 +11,14 @@ class Display
     ~Display();
 
     bool isRunning() const;
-
+    void processEvents();
     void present(const Framebuffer& framebuffer);
 
 
     private:
+    int width;
+    int height;
+    
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Texture* texture;

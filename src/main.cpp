@@ -1,34 +1,34 @@
-//F7 build
-//ctrl shift f5 run without debugging
-#include <iostream>
-
-
+#include "Color.h"
+#include "Display.h"
 #include "Framebuffer.h"
 #include "Rasterizer.h"
 
 int main()
 {
-    Framebuffer framebuffer(200, 150);
+    constexpr int width = 800;
+    constexpr int height = 600;
 
-    Color red = {255, 0, 0};
-    Color green = {0, 255, 0};
-    Color blue = {0, 0, 255};
-    Color white = {255, 255, 255};
-    Color black = {0, 0, 0};
+    Framebuffer framebuffer(width, height);
+    Display display(width, height);
 
-    framebuffer.clear(black);
+    Color black{0, 0, 0};
+    Color white{255, 255, 255};
 
-    drawLine(framebuffer, 70, 20, 90, 130, white);
+    while (display.isRunning())
+    {
+        display.processEvents();
 
-    if (framebuffer.savePPM("output.ppm"))
-        {
-            std::cout << "Framebuffer saved successfully.\n";
-        }
+        framebuffer.clear(black);
 
-        else
-        {
-            std::cout << "Framebuffer save failed.\n";
-        }
+        drawLine(
+            framebuffer,
+            100, 100,
+            700, 500,
+            white
+        );
+
+        display.present(framebuffer);
+    }
 
     return 0;
 }
