@@ -16,6 +16,11 @@ class Framebuffer
         
         void clear(Color color);
 
+        int getWidth() const;
+        int getHeight() const;
+
+        const std::vector<Color>& getPixels() const;
+
     private:
         int width;
         int height;

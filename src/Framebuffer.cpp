@@ -36,6 +36,22 @@ Color Framebuffer::getPixel(int x, int y) const
     return pixels[index];
 }
 
+int Framebuffer::getWidth() const
+{
+    return width;
+}
+
+int Framebuffer::getHeight() const
+{
+    return height;
+}
+
+const std::vector<Color>& Framebuffer::getPixels() const
+{
+    return pixels;
+}
+
+
 bool Framebuffer::savePPM(const std::string& filename) const
 {
     std::ofstream file(filename);
