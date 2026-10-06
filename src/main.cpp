@@ -13,18 +13,19 @@ int main()
 
     Color black{0, 0, 0};
     Color white{255, 255, 255};
+    Color red{255, 0, 0};
 
     while (display.isRunning())
     {
         display.processEvents();
 
-        framebuffer.clear(black);
+        framebuffer.clear(white);
 
         drawLine(
             framebuffer,
             100, 100,
             700, 500,
-            white
+            red
         );
 
         display.present(framebuffer);
