@@ -105,3 +105,54 @@ static long long edgeFunction(
          - static_cast<long long>(by - ay) * (px - ax);
 }
 
+void drawTriangle(
+    Framebuffer& framebuffer,
+    int x0,
+    int y0,
+    int x1,
+    int y1,
+    int x2,
+    int y2,
+    Color color
+)
+{
+    int minX = std::min({x0, x1, x2});
+    int maxX = std::max({x0, x1, x2});
+    int minY = std::min({y0, y1, y2});
+    int maxY = std::max({y0, y1, y2});
+
+    minX = std::max(minX, 0);
+    maxX = std::min(maxX, framebuffer.getWidth() - 1);
+    minY = std::max(minY, 0);
+    maxY = std::min(maxY, framebuffer.getHeight() - 1);
+
+    for (int y = minY; y <= maxY; ++y)
+    {
+        for (int x = minX; x <= maxX; ++x)
+        {
+            long long edge0 =
+                edgeFunction(x0, y0, x1, y1, x, y);
+
+            long long edge1 =
+                edgeFunction(x1, y1, x2, y2, x, y);
+
+            long long edge2 =
+                edgeFunction(x2, y2, x0, y0, x, y);
+
+            bool allPositive =
+                edge0 >= 0 &&
+                edge1 >= 0 &&
+                edge2 >= 0;
+
+            bool allNegative =
+                edge0 <= 0 &&
+                edge1 <= 0 &&
+                edge2 <= 0;
+
+            if (allPositive || allNegative)
+            {
+                framebuffer.setPixel(x, y, color);
+            }
+        }
+    }
+}

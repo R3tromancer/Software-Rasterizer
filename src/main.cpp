@@ -20,6 +20,14 @@ int main()
 
         framebuffer.clear(black);
 
+        drawTriangle(
+            framebuffer,
+            200, 100,
+            600, 150,
+            350, 450,
+            white
+        );
+
         display.present(framebuffer);
     }
 
