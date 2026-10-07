@@ -75,7 +75,7 @@ void drawLine(
     } */
 }
 
-void drawTriangle(
+/* void drawTriangle(
     Framebuffer framebuffer,
     int x0,
     int y0,
@@ -89,4 +89,19 @@ void drawTriangle(
     drawLine(framebuffer, x0, y0, x1, y1, color);
     drawLine(framebuffer, x1, y1, x2, y2, color);
     drawLine(framebuffer, x2, y2, x0, y0, color);
+} */
+
+
+static long long edgeFunction(
+    int ax,
+    int ay,
+    int bx,
+    int by,
+    int px,
+    int py
+)
+{
+    return static_cast<long long>(bx - ax) * (py - ay)
+         - static_cast<long long>(by - ay) * (px - ax);
 }
+

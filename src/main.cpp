@@ -13,15 +13,12 @@ int main()
 
     Color black{0, 0, 0};
     Color white{255, 255, 255};
-    Color red{255, 0, 0};
 
     while (display.isRunning())
     {
         display.processEvents();
 
-        framebuffer.clear(white);
-
-        drawTriangle(framebuffer,100, 100, 400, 200, 300, 300, red );
+        framebuffer.clear(black);
 
         display.present(framebuffer);
     }
