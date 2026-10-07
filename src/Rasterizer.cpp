@@ -3,6 +3,7 @@
 #include "Color.h"
 
 #include <cstdlib>
+#include <algorithm>
 
 
 void drawLine(
@@ -46,10 +47,6 @@ void drawLine(
         }
 
     }
-
-
-
-
    /*  int dx = x1 - x0;
     int dy = y1 - y0;
 
@@ -76,4 +73,20 @@ void drawLine(
         x += xStep;
         y += yStep;
     } */
+}
+
+void drawTriangle(
+    Framebuffer framebuffer,
+    int x0,
+    int y0,
+    int x1,
+    int y1,
+    int x2,
+    int y2,
+    Color color
+)
+{
+    drawLine(framebuffer, x0, y0, x1, y1, color);
+    drawLine(framebuffer, x1, y1, x2, y2, color);
+    drawLine(framebuffer, x2, y2, x0, y0, color);
 }

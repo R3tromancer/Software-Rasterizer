@@ -21,12 +21,7 @@ int main()
 
         framebuffer.clear(white);
 
-        drawLine(
-            framebuffer,
-            100, 100,
-            700, 500,
-            red
-        );
+        drawTriangle(framebuffer,100, 100, 400, 200, 300, 300, red );
 
         display.present(framebuffer);
     }
