@@ -28,6 +28,14 @@ int main()
             white
         );
 
+        drawTriangle(
+            framebuffer,
+            100, 500,
+            400, 50,
+            250, 300,
+            white
+        );
+
         display.present(framebuffer);
     }
 

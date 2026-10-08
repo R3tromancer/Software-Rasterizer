@@ -135,16 +135,43 @@ void drawLine(
     MinY = std::max(MinY, 0);
     MaxY = std::min(MaxY, framebuffer.getHeight() - 1);
 
+    long long checkABP = edgeFunction(x0, y0, x1, y1, MinX, MinY);
+    int dx01 = x1 - x0;
+    int dy01 = y1 - y0;
 
+    //checkABP1x = checkABP - dy01;
+    //checkABP1y = checkABP + dx01;
+
+    long long checkBCP = edgeFunction(x1, y1, x2, y2, MinX, MinY);
+    int dx12 = x2 - x1;
+    int dy12 = y2 - y1;
+    
+    //checkBCP1x = checkBCP - dy12;
+    //checkBCP1y = checkBCP + dx12;
+
+
+    long long checkCPA = edgeFunction(x2, y2, x0, y0, MinX, MinY);
+
+    int dx20 = x0 - x2;
+    int dy20 = y0 - y2;    
+
+    //checkCPA1x = checkCPA - dy20;
+   // checkCPA1y = checkCPA + dx20;
+
+
+   long long edge0 = checkABP;
+   long long edge1 = checkBCP;
+   long long edge2 = checkCPA;
 
     for (int y = MinY; y <= MaxY; ++y)
     {
+        checkABP += y * dx01;
+        checkBCP += y * dx12;
+        checkCPA += y * dx20;
+
+
         for (int x = MinX; x <= MaxX; ++x)
         {
-            long long checkABP = edgeFunction(x0, y0, x1, y1, x, y);
-            long long checkBCP = edgeFunction(x1, y1, x2, y2, x, y);
-            long long checkCPA = edgeFunction(x2, y2, x0, y0, x, y);
-            
             bool isAllCheckPos = 
             (checkABP >= 0 && checkBCP >= 0 && checkCPA >= 0);
 
@@ -156,9 +183,14 @@ void drawLine(
                 framebuffer.setPixel(x, y, color);
             }
 
-        }
+            checkABP -= dy01;
+            checkBCP -= dy12;
+            checkCPA -= dy20;
         
+        }
+
+        checkABP = edge0;
+        checkBCP = edge1;
+        checkCPA = edge2;
     }
  }
-
- // test
