@@ -4,6 +4,8 @@
 
 #include <cstdlib>
 #include <algorithm>
+#include <iostream>
+#include <math.h>
 
 
 void drawLine(
@@ -47,7 +49,9 @@ void drawLine(
         }
 
     }
-   /*  int dx = x1 - x0;
+   /*  DDA floating point line algo
+   
+    int dx = x1 - x0;
     int dy = y1 - y0;
 
     int steps = std::max(std::abs(dx), std::abs(dy));
@@ -75,8 +79,10 @@ void drawLine(
     } */
 }
 
-/* void drawTriangle(
-    Framebuffer framebuffer,
+/*  empty triangle algo
+
+    void drawTriangle(
+    Framebuffer& framebuffer,
     int x0,
     int y0,
     int x1,
@@ -89,23 +95,26 @@ void drawLine(
     drawLine(framebuffer, x0, y0, x1, y1, color);
     drawLine(framebuffer, x1, y1, x2, y2, color);
     drawLine(framebuffer, x2, y2, x0, y0, color);
-} */
+}
+ */
 
-
-static long long edgeFunction(
+ static long long edgeFunction(
     int ax,
     int ay,
     int bx,
     int by,
     int px,
     int py
-)
-{
-    return static_cast<long long>(bx - ax) * (py - ay)
-         - static_cast<long long>(by - ay) * (px - ax);
-}
+ )
+ {
+    return
+    static_cast<long long>((bx - ax) * (py - ay)) 
+    -
+    static_cast<long long>((px - ax) * (by - ay));
+ }
 
-void drawTriangle(
+
+ void drawTriangle(
     Framebuffer& framebuffer,
     int x0,
     int y0,
@@ -114,45 +123,40 @@ void drawTriangle(
     int x2,
     int y2,
     Color color
-)
-{
-    int minX = std::min({x0, x1, x2});
-    int maxX = std::max({x0, x1, x2});
-    int minY = std::min({y0, y1, y2});
-    int maxY = std::max({y0, y1, y2});
+ )
+ {
+    int MinX = std::min({x0, x1, x2});
+    int MaxX = std::max({x0, x1, x2});
+    int MinY = std::min({y0, y1, y2});
+    int MaxY = std::max({y0, y1, y2});
 
-    minX = std::max(minX, 0);
-    maxX = std::min(maxX, framebuffer.getWidth() - 1);
-    minY = std::max(minY, 0);
-    maxY = std::min(maxY, framebuffer.getHeight() - 1);
+    MinX = std::max(MinX, 0);
+    MaxX = std::min(MaxX, framebuffer.getWidth() - 1);
+    MinY = std::max(MinY, 0);
+    MaxY = std::min(MaxY, framebuffer.getHeight() - 1);
 
-    for (int y = minY; y <= maxY; ++y)
+
+
+    for (int y = MinY; y <= MaxY; ++y)
     {
-        for (int x = minX; x <= maxX; ++x)
+        for (int x = MinX; x <= MaxX; ++x)
         {
-            long long edge0 =
-                edgeFunction(x0, y0, x1, y1, x, y);
+            long long checkABP = edgeFunction(x0, y0, x1, y1, x, y);
+            long long checkBCP = edgeFunction(x1, y1, x2, y2, x, y);
+            long long checkCPA = edgeFunction(x2, y2, x0, y0, x, y);
+            
+            bool isAllCheckPos = 
+            (checkABP >= 0 && checkBCP >= 0 && checkCPA >= 0);
 
-            long long edge1 =
-                edgeFunction(x1, y1, x2, y2, x, y);
+            bool isAllCheckNeg = 
+            (checkABP <= 0 && checkBCP <= 0 && checkCPA <= 0);
 
-            long long edge2 =
-                edgeFunction(x2, y2, x0, y0, x, y);
-
-            bool allPositive =
-                edge0 >= 0 &&
-                edge1 >= 0 &&
-                edge2 >= 0;
-
-            bool allNegative =
-                edge0 <= 0 &&
-                edge1 <= 0 &&
-                edge2 <= 0;
-
-            if (allPositive || allNegative)
+            if(isAllCheckPos || isAllCheckNeg)
             {
                 framebuffer.setPixel(x, y, color);
             }
+
         }
+        
     }
-}
+ }

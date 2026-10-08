@@ -22,7 +22,7 @@ int main()
 
         drawTriangle(
             framebuffer,
-            200, 100,
+            300, 100,
             600, 150,
             350, 450,
             white
