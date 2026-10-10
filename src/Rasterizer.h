@@ -15,11 +15,18 @@ void drawLine(
 
 void drawTriangle(
     Framebuffer& framebuffer,
-    int x0,
-    int y0,
-    int x1,
-    int y1,
-    int x2,
-    int y2,
+    int x0, int y0,
+    int x1, int y1,
+    int x2, int y2,
     Color color
+);
+
+void drawTriangleInterpolated(
+    Framebuffer& framebuffer,
+    int x0, int y0,
+    int x1, int y1,
+    int x2, int y2,
+    Color color0,
+    Color color1,
+    Color color2
 );
