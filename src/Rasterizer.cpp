@@ -108,7 +108,7 @@ void drawTriangle(
     Color color)
 {
 
-    const long long signedArea = geometry2D::edgeFunction(x0 , y0, x1, y1, x2, y2);
+    const long long signedArea = geometry2d::edgeFunction(x0 , y0, x1, y1, x2, y2);
     if (signedArea == 0)
     {
         return;
@@ -126,15 +126,15 @@ void drawTriangle(
     MinY = std::max(MinY, 0);
     MaxY = std::min(MaxY, framebuffer.getHeight() - 1);
 
-    long long checkABP = geometry2D::edgeFunction(x0, y0, x1, y1, MinX, MinY);
+    long long checkABP = geometry2d::edgeFunction(x0, y0, x1, y1, MinX, MinY);
     int dx01 = x1 - x0;
     int dy01 = y1 - y0;
 
-    long long checkBCP = geometry2D::edgeFunction(x1, y1, x2, y2, MinX, MinY);
+    long long checkBCP = geometry2d::edgeFunction(x1, y1, x2, y2, MinX, MinY);
     int dx12 = x2 - x1;
     int dy12 = y2 - y1;
 
-    long long checkCPA = geometry2D::edgeFunction(x2, y2, x0, y0, MinX, MinY);
+    long long checkCPA = geometry2d::edgeFunction(x2, y2, x0, y0, MinX, MinY);
 
     int dx20 = x0 - x2;
     int dy20 = y0 - y2;
@@ -186,7 +186,7 @@ void drawTriangleInterpolated(
     Color color)
 {
 
-    const long long signedArea =geometry2D::edgeFunction(x0 , y0, x1, y1, x2, y2);
+    const long long signedArea =geometry2d::edgeFunction(x0 , y0, x1, y1, x2, y2);
     if (signedArea == 0)
     {
         return;

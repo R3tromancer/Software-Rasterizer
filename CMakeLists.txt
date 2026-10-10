@@ -12,6 +12,7 @@ add_executable(rasterizer
     src/Framebuffer.cpp
     src/Rasterizer.cpp
     src/Display.cpp
+    src/math/Geometry2D.cpp
 )
 
 target_link_libraries(rasterizer PRIVATE SDL3::SDL3)
