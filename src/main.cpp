@@ -5,6 +5,7 @@
 #include "math/Geometry2D.h"
 
 #include <iostream>
+#include <cmath>
 
 int main()
 {
@@ -24,7 +25,7 @@ int main()
             1, 1,
             5, 1,
             3, 4,
-            3, 2,
+            3, 3,
             weights);
 
     if (valid)
@@ -37,6 +38,29 @@ int main()
     {
         std::cout << "Degenerate triangle\n";
     }
+
+    std::cout << "Sum: "
+              << weights.alpha + weights.beta + weights.gamma
+              << '\n';
+
+    const Color colorA{255, 0, 0};
+    const Color colorB{0, 255, 0};
+    const Color colorC{0, 0, 255};
+
+    const Color testA{255, 0, 0};
+    const Color testB{0, 255, 0};
+    const Color testC{0, 0, 255};
+
+    const Color centerColor = interpolateColor(
+        testA, testB, testC,
+        1.0 / 3.0,
+        1.0 / 3.0,
+        1.0 / 3.0);
+
+    std::cout
+        << static_cast<int>(centerColor.r) << ' '
+        << static_cast<int>(centerColor.g) << ' '
+        << static_cast<int>(centerColor.b) << '\n';
 
     while (display.isRunning())
     {
