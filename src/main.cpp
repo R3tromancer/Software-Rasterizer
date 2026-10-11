@@ -20,12 +20,14 @@ int main()
 
     geometry2d::BarycentricCoordinates weights{};
 
+    
+
     bool valid =
         geometry2d::tryCalculateBarycentricCoordinates(
-            1, 1,
-            5, 1,
-            3, 4,
-            3, 3,
+            200, 100,
+            600, 150,
+            350, 450,
+            350, 200,
             weights);
 
     if (valid)
@@ -47,20 +49,15 @@ int main()
     const Color colorB{0, 255, 0};
     const Color colorC{0, 0, 255};
 
-    const Color testA{255, 0, 0};
-    const Color testB{0, 255, 0};
-    const Color testC{0, 0, 255};
+    Color point = interpolateColor(colorA, colorB, colorC, weights.alpha,
+    weights.beta, weights.gamma);
 
-    const Color centerColor = interpolateColor(
-        testA, testB, testC,
-        1.0 / 3.0,
-        1.0 / 3.0,
-        1.0 / 3.0);
+
 
     std::cout
-        << static_cast<int>(centerColor.r) << ' '
-        << static_cast<int>(centerColor.g) << ' '
-        << static_cast<int>(centerColor.b) << '\n';
+        << static_cast<int>(point.r) << ' '
+        << static_cast<int>(point.g) << ' '
+        << static_cast<int>(point.b) << '\n';
 
     while (display.isRunning())
     {
@@ -73,13 +70,13 @@ int main()
             300, 100,
             600, 150,
             350, 450,
-            white);
+            point);
 
         drawTriangle(
             framebuffer,
             100, 500,
             400, 50,
-            250, 300,
+            500, 300,
             white);
 
         display.present(framebuffer);
