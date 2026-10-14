@@ -26,7 +26,5 @@ void drawTriangleInterpolated(
     int x0, int y0,
     int x1, int y1,
     int x2, int y2,
-    Color color0,
-    Color color1,
-    Color color2
+    Color color0, Color color1, Color color2
 );

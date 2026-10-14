@@ -72,12 +72,14 @@ int main()
             350, 450,
             point);
 
-        drawTriangle(
+        drawTriangleInterpolated(
             framebuffer,
             100, 500,
             400, 50,
             500, 300,
-            white);
+            colorA,
+            colorB,
+            colorC);
 
         display.present(framebuffer);
     }
