@@ -255,11 +255,4 @@ void drawTriangleInterpolated(
         edge2 += dx20;
 
     }
-
-    
-
-
-
-
-
 }

@@ -15,6 +15,21 @@ namespace geometry2d
         static_cast<long long>((by - ay) * (px - ax));
     }
 
+
+    double edgeFunction(
+        const Vec2& a,
+        const Vec2& b,
+        const Vec2& p
+    )
+    {
+        const double abx = static_cast<double>(b.x) - a.x;
+        const double aby = static_cast<double>(b.y) - a.y;
+        const double apx = static_cast<double>(p.x) - a.x;
+        const double apy = static_cast<double>(p.y) - p.y;
+
+        return abx * apy - aby * apx;
+    }
+
     bool tryCalculateBarycentricCoordinates(
         int ax, int ay,
         int bx, int by,
@@ -37,6 +52,28 @@ namespace geometry2d
 
         result.gamma = static_cast<double>(
             edgeFunction(ax, ay, bx, by, px, py)) / area;
+
+        return true;
+
+    }
+
+    bool tryCalculateBarycentricCoordinates(
+        const Vec2& a,
+        const Vec2& b,
+        const Vec2& c,
+        const Vec2& p,
+        BarycentricCoordinates result
+    )
+    {
+        double area = edgeFunction(a, b, c);
+        if (area == 0)
+        {
+            return false;
+        }
+
+        result.alpha = edgeFunction(b, c, p) / area;
+        result.beta  = edgeFunction(c, a, p) / area;
+        result.gamma = edgeFunction(a, b, p) / area;
 
         return true;
 
