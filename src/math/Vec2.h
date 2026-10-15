@@ -12,3 +12,9 @@ Vec2 operator-(const Vec2& a, const Vec2& b);
 Vec2 operator+(const Vec2& a, const Vec2& b);
 
 float dot(const Vec2& a, const Vec2& b);
+
+float length(const Vec2& vec);
+
+Vec2 operator/(const Vec2& vec, float scalar);
+
+Vec2 normalize(const Vec2& vec);
