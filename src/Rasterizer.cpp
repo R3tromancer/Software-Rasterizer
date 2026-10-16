@@ -188,8 +188,7 @@ void drawTriangleInterpolated(
     Color color0, Color color1, Color color2)
 {
 
-    const double signedArea = geometry2d::edgeFunction(
-        a, b, c);
+    const double signedArea = geometry2d::edgeFunction(a, b, c);
     if (signedArea == 0)
     {
         return;

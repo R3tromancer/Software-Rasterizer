@@ -67,16 +67,14 @@ int main()
 
         drawTriangle(
             framebuffer,
-            a,
-            b,
-            c,
+            {100, 500},
+            {400, 50},
+            {500, 300},
             point);
 
         drawTriangleInterpolated(
             framebuffer,
-            {100, 500},
-            {400, 50},
-            {500, 300},
+            a, b, c,
             colorA,
             colorB,
             colorC);
