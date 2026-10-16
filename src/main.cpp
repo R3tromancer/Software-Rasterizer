@@ -12,6 +12,10 @@ int main()
     constexpr int width = 800;
     constexpr int height = 600;
 
+    const Vec2 a{200.0f, 100.0f};
+    const Vec2 b{600.0f, 150.0f};
+    const Vec2 c{350.0f, 450.0f};
+
     Framebuffer framebuffer(width, height);
     Display display(width, height);
 
@@ -19,8 +23,6 @@ int main()
     Color white{255, 255, 255};
 
     geometry2d::BarycentricCoordinates weights{};
-
-    
 
     bool valid =
         geometry2d::tryCalculateBarycentricCoordinates(
@@ -50,9 +52,7 @@ int main()
     const Color colorC{0, 0, 255};
 
     Color point = interpolateColor(colorA, colorB, colorC, weights.alpha,
-    weights.beta, weights.gamma);
-
-
+                                   weights.beta, weights.gamma);
 
     std::cout
         << static_cast<int>(point.r) << ' '
@@ -67,16 +67,16 @@ int main()
 
         drawTriangle(
             framebuffer,
-            300, 100,
-            600, 150,
-            350, 450,
+            a,
+            b,
+            c,
             point);
 
         drawTriangleInterpolated(
             framebuffer,
-            100, 500,
-            400, 50,
-            500, 300,
+            {100, 500},
+            {400, 50},
+            {500, 300},
             colorA,
             colorB,
             colorC);

@@ -96,144 +96,161 @@ void drawLine(
 }
  */
 
-
 void drawTriangle(
     Framebuffer &framebuffer,
-    int x0,
-    int y0,
-    int x1,
-    int y1,
-    int x2,
-    int y2,
+    const Vec2 &a,
+    const Vec2 &b,
+    const Vec2 &c,
     Color color)
 {
 
-    const long long signedArea = geometry2d::edgeFunction(x0 , y0, x1, y1, x2, y2);
+    const double signedArea = geometry2d::edgeFunction(a, b, c);
     if (signedArea == 0)
     {
         return;
     }
 
+    int minX = std::max(
+        0, static_cast<int>(std::ceil(std::min({a.x, b.x, c.x}))));
 
+    int maxX = std::min(
+        framebuffer.getWidth() - 1,
+        static_cast<int>(std::floor(std::max({a.x, b.x, c.x}))));
 
-    int MinX = std::min({x0, x1, x2});
-    int MaxX = std::max({x0, x1, x2});
-    int MinY = std::min({y0, y1, y2});
-    int MaxY = std::max({y0, y1, y2});
+    int minY = std::max(
+        0, static_cast<int>(std::ceil(std::min({a.y, b.y, c.y}))));
 
-    MinX = std::max(MinX, 0);
-    MaxX = std::min(MaxX, framebuffer.getWidth() - 1);
-    MinY = std::max(MinY, 0);
-    MaxY = std::min(MaxY, framebuffer.getHeight() - 1);
+    int maxY = std::min(
+        framebuffer.getHeight() - 1,
+        static_cast<int>(std::floor(std::max({a.y, b.y, c.y}))));
 
-    long long checkABP = geometry2d::edgeFunction(x0, y0, x1, y1, MinX, MinY);
-    int dx01 = x1 - x0;
-    int dy01 = y1 - y0;
+    const Vec2 firstSample{
+        static_cast<float>(minX),
+        static_cast<float>(minY)};
 
-    long long checkBCP = geometry2d::edgeFunction(x1, y1, x2, y2, MinX, MinY);
-    int dx12 = x2 - x1;
-    int dy12 = y2 - y1;
+    double edge0Start =
+        geometry2d::edgeFunction(a, b, firstSample);
 
-    long long checkCPA = geometry2d::edgeFunction(x2, y2, x0, y0, MinX, MinY);
+    double edge1Start =
+        geometry2d::edgeFunction(b, c, firstSample);
 
-    int dx20 = x0 - x2;
-    int dy20 = y0 - y2;
+    double edge2Start =
+        geometry2d::edgeFunction(c, a, firstSample);
 
-    long long edge0 = checkABP;
-    long long edge1 = checkBCP;
-    long long edge2 = checkCPA;
+    const double edge0XStep = -(b.y - a.y);
+    const double edge0YStep = b.x - a.x;
 
-    for (int y = MinY; y <= MaxY; ++y)
+    const double edge1XStep = -(c.y - b.y);
+    const double edge1YStep = c.x - b.x;
+
+    const double edge2XStep = -(a.y - c.y);
+    const double edge2YStep = a.x - c.x;
+
+    double edge0 = edge0Start;
+    double edge1 = edge1Start;
+    double edge2 = edge2Start;
+
+    for (int y = minY; y <= maxY; ++y)
     {
-        for (int x = MinX; x <= MaxX; ++x)
+        for (int x = minX; x <= maxX; ++x)
         {
             bool isAllCheckPos =
-                (checkABP >= 0 && checkBCP >= 0 && checkCPA >= 0);
+                (edge0Start >= 0 && edge1Start >= 0 && edge2Start >= 0);
 
             bool isAllCheckNeg =
-                (checkABP <= 0 && checkBCP <= 0 && checkCPA <= 0);
+                (edge0Start <= 0 && edge1Start <= 0 && edge2Start <= 0);
 
             if (isAllCheckPos || isAllCheckNeg)
             {
                 framebuffer.setPixel(x, y, color);
             }
 
-            checkABP -= dy01;
-            checkBCP -= dy12;
-            checkCPA -= dy20;
+            edge0Start += edge0XStep;
+            edge1Start += edge1XStep;
+            edge2Start += edge2XStep;
         }
 
-        checkABP = edge0;
-        checkBCP = edge1;
-        checkCPA = edge2;
+        edge0Start = edge0;
+        edge1Start = edge1;
+        edge2Start = edge2;
 
-        edge0 += dx01;
-        edge1 += dx12;
-        edge2 += dx20;
-
+        edge0 += edge0YStep;
+        edge1 += edge1YStep;
+        edge2 += edge2YStep;
     }
 }
 
-
 void drawTriangleInterpolated(
     Framebuffer &framebuffer,
-    int x0, int y0,
-    int x1, int y1,
-    int x2, int y2,
-    Color color0, Color color1, Color color2
-    )
+    const Vec2& a,
+    const Vec2& b,
+    const Vec2& c,
+    Color color0, Color color1, Color color2)
 {
 
-    const long long signedArea = geometry2d::edgeFunction(
-        x0 , y0, x1, y1, x2, y2);
+    const double signedArea = geometry2d::edgeFunction(
+        a, b, c);
     if (signedArea == 0)
     {
         return;
     }
 
-    int MinX = std::min({x0, x1, x2});
-    int MaxX = std::max({x0, x1, x2});
-    int MinY = std::min({y0, y1, y2});
-    int MaxY = std::max({y0, y1, y2});
+    int minX = std::max(
+        0, static_cast<int>(std::ceil(std::min({a.x, b.x, c.x}))));
 
-    MinX = std::max(MinX, 0);
-    MaxX = std::min(MaxX, framebuffer.getWidth() - 1);
-    MinY = std::max(MinY, 0);
-    MaxY = std::min(MaxY, framebuffer.getHeight() - 1);
+    int maxX = std::min(
+        framebuffer.getWidth() - 1,
+        static_cast<int>(std::floor(std::max({a.x, b.x, c.x}))));
 
-    long long checkABP = geometry2d::edgeFunction(x0, y0, x1, y1, MinX, MinY);
-    int dx01 = x1 - x0;
-    int dy01 = y1 - y0;
+    int minY = std::max(
+        0, static_cast<int>(std::ceil(std::min({a.y, b.y, c.y}))));
 
-    long long checkBCP = geometry2d::edgeFunction(x1, y1, x2, y2, MinX, MinY);
-    int dx12 = x2 - x1;
-    int dy12 = y2 - y1;
+    int maxY = std::min(
+        framebuffer.getHeight() - 1,
+        static_cast<int>(std::floor(std::max({a.y, b.y, c.y}))));
 
-    long long checkCPA = geometry2d::edgeFunction(x2, y2, x0, y0, MinX, MinY);
+    const Vec2 firstSample{
+        static_cast<float>(minX),
+        static_cast<float>(minY)};
 
-    int dx20 = x0 - x2;
-    int dy20 = y0 - y2;
+    double edge0Start =
+        geometry2d::edgeFunction(a, b, firstSample);
 
-    long long edge0 = checkABP;
-    long long edge1 = checkBCP;
-    long long edge2 = checkCPA;
+    double edge1Start =
+        geometry2d::edgeFunction(b, c, firstSample);
 
-    for (int y = MinY; y <= MaxY; ++y)
+    double edge2Start =
+        geometry2d::edgeFunction(c, a, firstSample);
+
+    const double edge0XStep = -(b.y - a.y);
+    const double edge0YStep = b.x - a.x;
+
+    const double edge1XStep = -(c.y - b.y);
+    const double edge1YStep = c.x - b.x;
+
+    const double edge2XStep = -(a.y - c.y);
+    const double edge2YStep = a.x - c.x;
+
+    double edge0 = edge0Start;
+    double edge2 = edge2Start;
+    double edge1 = edge1Start;
+
+    for (int y = minY; y <= maxY; ++y)
     {
-        for (int x = MinX; x <= MaxX; ++x)
+        for (int x = minX; x <= maxX; ++x)
         {
             bool isAllCheckPos =
-                (checkABP >= 0 && checkBCP >= 0 && checkCPA >= 0);
+                (edge0Start >= 0 && edge1Start >= 0 && edge2Start >= 0);
 
             bool isAllCheckNeg =
-                (checkABP <= 0 && checkBCP <= 0 && checkCPA <= 0);
+                (edge0Start <= 0 && edge1Start <= 0 && edge2Start <= 0);
 
             if (isAllCheckPos || isAllCheckNeg)
             {
                 geometry2d::BarycentricCoordinates weights{};
-                weights.alpha = static_cast<double>(checkBCP) / signedArea;
-                weights.beta  = static_cast<double>(checkCPA) / signedArea;
-                weights.gamma = static_cast<double>(checkABP) / signedArea;
+                weights.alpha = static_cast<double>(edge1Start) / signedArea;
+                weights.beta = static_cast<double>(edge2Start) / signedArea;
+                weights.gamma = static_cast<double>(edge0Start) / signedArea;
 
                 Color color = interpolateColor(color0, color1, color2,
                 weights.alpha, weights.beta, weights.gamma);
@@ -241,18 +258,17 @@ void drawTriangleInterpolated(
                 framebuffer.setPixel(x, y, color);
             }
 
-            checkABP -= dy01;
-            checkBCP -= dy12;
-            checkCPA -= dy20;
+            edge0Start += edge0XStep;
+            edge1Start += edge1XStep;
+            edge2Start += edge2XStep;
         }
 
-        checkABP = edge0;
-        checkBCP = edge1;
-        checkCPA = edge2;
+        edge0Start = edge0;
+        edge1Start = edge1;
+        edge2Start = edge2;
 
-        edge0 += dx01;
-        edge1 += dx12;
-        edge2 += dx20;
-
+        edge0 += edge0YStep;
+        edge1 += edge1YStep;
+        edge2 += edge2YStep;
     }
 }
