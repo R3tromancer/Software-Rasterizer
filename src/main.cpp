@@ -3,9 +3,11 @@
 #include "Framebuffer.h"
 #include "Rasterizer.h"
 #include "math/Geometry2D.h"
+#include "math/Vec3.h"
 
 #include <iostream>
 #include <cmath>
+#include <cassert>
 
 int main()
 {
@@ -23,6 +25,27 @@ int main()
     Color white{255, 255, 255};
 
     geometry2d::BarycentricCoordinates weights{};
+
+    const Vec3 f{1.0f, 2.0f, 3.0f};
+    const Vec3 g{4.0f, 5.0f, 6.0f};
+
+    const Vec3 sum = f + g;
+    assert(sum.x == 5.0f && sum.y == 7.0f && sum.z == 9.0f);
+
+    const Vec3 difference = g - f;
+    assert(difference.x == 3.0f &&
+           difference.y == 3.0f &&
+           difference.z == 3.0f);
+
+    const Vec3 scaled = f * 2.0f;
+    assert(scaled.x == 2.0f &&
+           scaled.y == 4.0f &&
+           scaled.z == 6.0f);
+
+    assert(dot(g, f) == 32.0f);
+
+    assert(std::abs(length(f) - std::sqrt(14.0f)) < 1e-5f);
+    assert(std::abs(length(normalize(f)) - 1.0f) < 1e-5f);
 
     bool valid =
         geometry2d::tryCalculateBarycentricCoordinates(
