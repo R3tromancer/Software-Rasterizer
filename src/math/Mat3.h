@@ -8,5 +8,6 @@ struct Mat3
 };
 
 Mat3 identityMat3();
+Mat3 rotationZ(float radians);
 
 Vec3 operator*(const Mat3& matrix, const Vec3& vector);

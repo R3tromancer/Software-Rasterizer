@@ -20,6 +20,7 @@ int main()
     assert(unchanged.x == original.x);
     assert(unchanged.y == original.y);
     assert(unchanged.z == original.z);
+    
     constexpr int width = 800;
     constexpr int height = 600;
 
