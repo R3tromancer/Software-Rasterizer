@@ -4,6 +4,7 @@
 #include "Rasterizer.h"
 #include "math/Geometry2D.h"
 #include "math/Vec3.h"
+#include "math/Mat3.h"
 
 #include <iostream>
 #include <cmath>
@@ -11,6 +12,14 @@
 
 int main()
 {
+    const Mat3 identity = identityMat3();
+    const Vec3 original{2.0f, -3.0f, 5.0f};
+
+    const Vec3 unchanged = identity * original;
+
+    assert(unchanged.x == original.x);
+    assert(unchanged.y == original.y);
+    assert(unchanged.z == original.z);
     constexpr int width = 800;
     constexpr int height = 600;
 

@@ -16,6 +16,7 @@ add_executable(rasterizer
     src/Color.cpp
     src/math/Vec2.cpp
     src/math/Vec3.cpp
+    src/math/Mat3.cpp
 )
 
 target_link_libraries(rasterizer PRIVATE SDL3::SDL3)
